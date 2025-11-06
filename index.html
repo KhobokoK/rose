@@ -59,6 +59,7 @@
       margin: 10px 0;
     }
 
+    /* --- Your Flexbox Gallery (kept same style) --- */
     .gallery {
       display: flex;
       flex-wrap: wrap;
@@ -73,6 +74,7 @@
       height: 250px;
       object-fit: cover;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
     }
 
     .gallery img:hover, .gallery video:hover {
@@ -94,32 +96,245 @@
       border-radius: 30px;
       padding: 5px;
     }
+
+    /* ---- LIGHTBOX VIEWER ---- */
+    #lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      flex-direction: column;
+    }
+    #lightbox img {
+      width: 80%;
+      max-width: 650px;
+      border-radius: 10px;
+    }
+    .lightbox-controls {
+      margin-top: 20px;
+    }
+    .lightbox-btn {
+      background: #f5c518;
+      color: #000;
+      padding: 10px 20px;
+      border-radius: 5px;
+      margin: 0 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    /* ----- FLOATING HEARTS ANIMATION ----- */
+    .heart {
+      position: fixed;
+      bottom: -10px;
+      color: #f5426f;
+      font-size: 20px;
+      animation: floatUp 6s linear infinite;
+      opacity: 0.8;
+      z-index: 999;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-120vh) scale(1.8); opacity: 0; }
+    }
+
+    /* ----- FALLING ROSE PETALS ----- */
+    .petal {
+      position: fixed;
+      top: -10px;
+      color: #ff4d4d;
+      font-size: 28px;
+      animation: fallDown 8s linear infinite;
+      opacity: 0.9;
+      z-index: 998;
+    }
+
+    @keyframes fallDown {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    @media (max-width: 720px) {
+      .gallery img, .gallery video {
+        width: calc(50% - 20px);
+        height: 140px;
+      }
+
+      /* Modal styling */
+#loveModal {
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgba(0,0,0,0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#loveContent {
+  background: #111;
+  border: 3px solid #ff69b4;
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+  color: #ff69b4;
+  box-shadow: 0 0 20px #ff69b4;
+  position: relative;
+}
+
+#loveContent h2 {
+  margin-top: 0;
+  font-size: 2em;
+}
+
+#loveContent p {
+  font-size: 1.2em;
+  line-height: 1.5;
+}
+
+#closeModal {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 2em;
+  cursor: pointer;
+  color: #ff69b4;
+}
+
+/* Floating hearts inside modal */
+.modalHeart {
+  position: absolute;
+  color: #ff69b4;
+  font-size: 20px;
+  animation: floatUp 5s linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-120vh) scale(1.5); opacity: 0; }
+}
+
+    }
   </style>
 </head>
 <body>
+
+  <!-- ✅ Background Music -->
+  <audio id="bgMusic" autoplay loop>
+    <source src="Kaymore.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    // Try to play background music
+    window.addEventListener('load', () => {
+      const audio = document.getElementById('bgMusic');
+      audio.play().catch(() => {
+        console.log('Autoplay blocked — waiting for click.');
+      });
+    });
+
+    // Start playing on first click if autoplay blocked
+    document.addEventListener('click', () => {
+      const audio = document.getElementById('bgMusic');
+      if (audio.paused) audio.play();
+    }, { once: true });
+  </script>
 
   <header>
     <h1>🎓 Congratulations, Kamohelo Faniso (Rose)</h1>
     <p>From your biggest supporter — <strong>Katai Khoboko ❤️</strong></p>
   </header>
 
-  <section>
-    <h2>🌹 Our Journey</h2>
+  <section class="journey">
+    <h2>🌹 Our Journey 🌹</h2>
     <div class="timeline">
-      <p><strong>2021:</strong> The first time I saw you at Leruo, during our supplementary classes. I started loving Maths because of you — you changed me without even knowing it.</p>
-      <p><strong>2022:</strong> I made a promise that I would meet you at tertiary when the time was right.</p>
-      <p><strong>2024:</strong> We finally met — and I got to know you deeply, both academically and romantically. We made memories, fought, and encouraged each other.</p>
-      <p><strong>2025:</strong> We’re growing stronger together — until your graduation day, <strong>7 November</strong>. From Quthing to this proud moment — from looking after livestock to becoming a graduate. I am so proud of you.</p>
+      <div class="event">
+        <span class="year">2021</span>
+        <p>That’s when I first saw you at Leruo,,, during our supplementary classes. I didn’t know then that <em>“ke tla o rata hakana”</em> . You made me see Maths differently because your presence made every moment brighter.</p>
+      </div>
+  
+      <div class="event">
+        <span class="year">2022</span>
+        <p>I carried a quiet promise in my heart,, that one day, <strong>re tla kopana hape</strong>  at tertiary. Even though distance and time stood between us, my hope never faded.</p>
+      </div>
+  
+      <div class="event">
+        <span class="year">2024</span>
+        <p>That dream came true. We met again  and this time, not just as classmates, but as partners in life. We studied, we laughed, we fought, and we built something real. <em>O ile oa nthuta hore lerato ha se mantsoe feela, empa ke ketso</em> you taught me that love is action.</p>
+      </div>
+  
+      <div class="event">
+        <span class="year">2025</span>
+        <p>Now here we are .. your graduation year. From Quthing’s dusty fields to walking proudly in your gown on <strong>7 November</strong>. <em>Ke motlotlo ka wena haholo, lerato la ka</em> . You’ve become the woman I always knew you could be  strong, graceful, and unstoppable. ❤️</p>
+      </div>
     </div>
   </section>
+  
 
   <section>
     <h2>📸 Beautiful Memories</h2>
     <div class="gallery">
-      <img src="https://i.postimg.cc/3wHRJzYr/rose1.jpg" alt="Rose photo 1">
-      <img src="https://i.postimg.cc/RFtx6Zdh/rose2.jpg" alt="Rose photo 2">
-      <img src="https://i.postimg.cc/159bPHkP/rose3.jpg" alt="Rose photo 3">
-      <img src="https://i.postimg.cc/tJ9vqqm6/rose4.jpg" alt="Rose photo 4">
+      <!-- Your photos remain the same -->
+      <img src="https://i.postimg.cc/3wHRJzYr/rose1.jpg" alt="">
+      <img src="https://i.postimg.cc/RFtx6Zdh/rose2.jpg" alt="">
+      <img src="https://i.postimg.cc/159bPHkP/rose3.jpg" alt="">
+      <img src="https://i.postimg.cc/tJ9vqqm6/rose4.jpg" alt="">
+        <img src="https://i.postimg.cc/ncVRcbX2/IMG-20251105-WA0006.jpg" alt="">
+        <img src="https://i.postimg.cc/xCTJNRLr/IMG-20251105-WA0007.jpg" alt="">
+        <img src="https://i.postimg.cc/sfMPnjGB/IMG-20251105-WA0008.jpg" alt="">
+        <img src="https://i.postimg.cc/PxgCVk0z/IMG-20251105-WA0010.jpg" alt="">
+        <img src="https://i.postimg.cc/Wzc46wJ6/IMG-20251105-WA0011.jpg" alt="">
+        <img src="https://i.postimg.cc/dtqss1RL/IMG-20251105-WA0012.jpg" alt="">
+        <img src="https://i.postimg.cc/Zq3tFtFJ/IMG-20251105-WA0013.jpg" alt="">
+        <img src="https://i.postimg.cc/2SbPrRt0/IMG-20251105-WA0014.jpg" alt="">
+        <img src="https://i.postimg.cc/kXDHvPqT/IMG-20251105-WA0015.jpg" alt="">
+        <img src="https://i.postimg.cc/0jh0C3CM/IMG-20251105-WA0016.jpg" alt="">
+        <img src="https://i.postimg.cc/kXrjK6YW/IMG-20251105-WA0017.jpg" alt="">
+        <img src="https://i.postimg.cc/L5kjzXhV/IMG-20251105-WA0018.jpg" alt="">
+        <img src="https://i.postimg.cc/hGHm6xdf/IMG-20251105-WA0019.jpg" alt="">
+        <img src="https://i.postimg.cc/JzsG80mT/IMG-20251105-WA0020.jpg" alt="">
+        <img src="https://i.postimg.cc/pXTdQr9p/IMG-20251105-WA0021.jpg" alt="">
+        <img src="https://i.postimg.cc/sx0sHPMb/IMG-20251105-WA0022.jpg" alt="">
+        <img src="https://i.postimg.cc/tJ88VBZP/IMG-20251105-WA0023.jpg" alt="">
+        <img src="https://i.postimg.cc/HxxNZqbM/IMG-20251105-WA0024.jpg" alt="">
+        <img src="https://i.postimg.cc/2jPzWGfc/IMG-20251105-WA0025.jpg" alt="">
+        <img src="https://i.postimg.cc/MTg8y6gJ/IMG-20251105-WA0026.jpg" alt="">
+        <img src="https://i.postimg.cc/htKR83Zv/IMG-20251105-WA0027.jpg" alt="">
+        <img src="https://i.postimg.cc/gJXCk9jt/IMG-20251105-WA0028.jpg" alt="">
+        <img src="https://i.postimg.cc/wTcSBQxc/IMG-20251105-WA0029.jpg" alt="">
+        <img src="https://i.postimg.cc/HLjKBGwj/IMG-20251105-WA0030.jpg" alt="">
+        <img src="https://i.postimg.cc/NF8P5QcP/IMG-20251105-WA0031.jpg" alt="">
+        <img src="https://i.postimg.cc/Mp33csCq/IMG-20251105-WA0032.jpg" alt="">
+        <img src="https://i.postimg.cc/Fs9TT5vw/IMG-20251105-WA0033.jpg" alt="">
+        <img src="https://i.postimg.cc/9M5pTs1n/IMG-20251105-WA0034.jpg" alt="">
+        <img src="https://i.postimg.cc/v8vzgq9d/IMG-20251105-WA0035.jpg" alt="">
+        <img src="https://i.postimg.cc/W1d6ysys/IMG-20251105-WA0036.jpg" alt="">
+        <img src="https://i.postimg.cc/FzF0Vvc4/IMG-20251105-WA0037.jpg" alt="">
+        <img src="https://i.postimg.cc/P5vY42Lw/IMG-20251105-WA0038.jpg" alt="">
+        <img src="https://i.postimg.cc/m2tHL8yc/IMG-20251105-WA0039.jpg" alt="">
+        <img src="https://i.postimg.cc/CKHZPtwn/IMG-20251105-WA0040.jpg" alt="">
+        <img src="https://i.postimg.cc/CL3zFYKQ/IMG-20251105-WA0041.jpg" alt="">
+        <img src="https://i.postimg.cc/tRfg5yF2/IMG-20251105-WA0042.jpg" alt="">
+        <img src="https://i.postimg.cc/XvQjy0Vj/IMG-20251105-WA0043.jpg" alt="">
+        <img src="https://i.postimg.cc/667ZwM0y/IMG-20251105-WA0044.jpg" alt="">
+      
     </div>
   </section>
 
@@ -128,12 +343,9 @@
     <div class="gallery">
       <video controls>
         <source src="videos/memory1.mp4" type="video/mp4">
-        Your browser does not support the video tag.
       </video>
-
       <video controls>
         <source src="videos/memory2.mp4" type="video/mp4">
-        Your browser does not support the video tag.
       </video>
     </div>
   </section>
@@ -141,15 +353,169 @@
   <section>
     <h2>🎵 Our Song</h2>
     <p>Because some memories are better felt with music.</p>
-    <audio controls>
+    <audio controls id="ourSong">
       <source src="videos/oursong.mp3" type="audio/mp3">
-      Your browser does not support the audio tag.
     </audio>
   </section>
+  <div id="loveModal"></div>
+    <div id="loveContent">
+      <span id="closeModal">&times;</span>
+      <h2>💖 A Message from Aloysius 💖</h2>
+      <p id="secretMessageText"></p>
+    </div>
+  </div>
+  <section>
+    <h2>🔒 A Special Message Just for You</h2>
+    <p>Click the button below to reveal a secret message 💌</p>
+    <button id="revealBtn">Reveal Secret Message</button>
+  </section>
+  
 
   <footer>
     <p>Created with ❤️ by <strong>Katai Khoboko</strong> for <strong>Kamohelo Faniso (Rose)</strong> — Class of 2025.</p>
   </footer>
 
+  <!-- ✅ LIGHTBOX -->
+  <div id="lightbox">
+    <img id="lightbox-img" src="">
+    <div class="lightbox-controls">
+      <span class="lightbox-btn" onclick="prevImage()">Prev</span>
+      <span class="lightbox-btn" onclick="nextImage()">Next</span>
+      <span class="lightbox-btn" onclick="closeLightbox()">Close</span>
+    </div>
+  </div>
+
+  <script>
+    // Pause background music when another plays
+    const bgMusic = document.getElementById('bgMusic');
+    document.querySelectorAll("video, #ourSong").forEach(media => {
+      media.addEventListener("play", () => bgMusic.pause());
+    });
+
+    // Lightbox logic
+    const images = document.querySelectorAll(".gallery img");
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    let currentIndex = 0;
+
+    images.forEach((img, index) => {
+      img.addEventListener("click", () => {
+        currentIndex = index;
+        openLightbox(img.src);
+      });
+    });
+
+    function openLightbox(src) {
+      lightbox.style.display = "flex";
+      lightboxImg.src = src;
+    }
+
+    function closeLightbox() {
+      lightbox.style.display = "none";
+    }
+
+    function nextImage() {
+      currentIndex = (currentIndex + 1) % images.length;
+      lightboxImg.src = images[currentIndex].src;
+    }
+
+    function prevImage() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      lightboxImg.src = images[currentIndex].src;
+    }
+  </script>
+
+  <!-- ❤️ Floating Hearts + 🌹 Rose Petals -->
+  <script>
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.textContent = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }
+    setInterval(createHeart, 1200);
+
+    function createPetal() {
+      const petal = document.createElement("div");
+      petal.classList.add("petal");
+      petal.textContent = "🌹";
+      petal.style.left = Math.random() * 100 + "vw";
+      petal.style.animationDuration = (6 + Math.random() * 4) + "s";
+      document.body.appendChild(petal);
+      setTimeout(() => petal.remove(), 8000);
+    }
+    setInterval(createPetal, 1600);
+  </script>
+
+<script>
+  function showSecretMessage() {
+    const password = prompt("Enter the password: HINT(My BIRTHDAY DD.MM.YY):");
+    const yourBirthday = "11.09.2000"; // Replace with your birthday in DDMM format, e.g., 7 Nov = 0711
+    const messageEl = document.getElementById("secretMessage");
+
+    if (password === yourBirthday) {
+      messageEl.style.display = "block";
+      messageEl.innerHTML = "🌹 Rose, my love for you is endless. You are my heart, my pride, and my everything. ❤️ Always and forever, <strong>Katai</strong>.";
+    } else {
+      alert("Incorrect password! Try again.");
+    }
+  }
+</script>
+
+<script>
+  const revealBtn = document.getElementById('revealBtn');
+  const loveModal = document.getElementById('loveModal');
+  const closeModal = document.getElementById('closeModal');
+  const secretMessageText = document.getElementById('secretMessageText');
+  
+  revealBtn.addEventListener('click', () => {
+  const password = prompt("Enter the password: HINT(My BIRTHDAY DD.MM.YY):");
+  const yourBirthday = "11.09.2000"; // Replace with your birthday (DDMM)
+  
+  if (password === yourBirthday) {
+    secretMessageText.innerHTML = `
+🌹 Rose, congratulations on your amazing achievement! 🎓 I am so proud of the strong, intelligent, and beautiful woman you’ve become. You inspire me every day, and seeing you shine fills my heart with endless joy.<br><br>
+
+I need you to know something important — your happiness matters to me deeply, and the choices you make shape the life we share. I know you’ve been talking to your past, and while I respect your feelings, I hope you remember to make decisions that protect our love and our future.<br><br>
+
+I believe in you completely because you are extraordinary. Always trust yourself, follow your heart, and know that I am here, loving you with all my heart ❤️. You are my pride, my heart, my everything — now and forever, <strong>Katai</strong>.
+    `;
+    loveModal.style.display = "flex";
+    startFloatingHearts();
+  } else {
+    alert("Incorrect password! Try again.");
+  }
+});
+
+  
+  closeModal.addEventListener('click', () => {
+    loveModal.style.display = "none";
+    stopFloatingHearts();
+  });
+  
+  function startFloatingHearts() {
+    // Create floating hearts
+    window.heartInterval = setInterval(() => {
+      const heart = document.createElement('div');
+      heart.classList.add('modalHeart');
+      heart.textContent = '❤️';
+      heart.style.left = Math.random() * 90 + 'vw';
+      heart.style.animationDuration = (4 + Math.random() * 3) + 's';
+      loveModal.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }, 300);
+  }
+  
+  function stopFloatingHearts() {
+    clearInterval(window.heartInterval);
+  }
+  </script>
+  
 </body>
 </html>
+
+
+
