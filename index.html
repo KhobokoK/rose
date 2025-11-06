@@ -347,16 +347,33 @@
       <video controls>
         <source src="videos/memory2.mp4" type="video/mp4">
       </video>
+      <!-- New videos added -->
+      <video controls>
+        <source src="videos/memory3.mp4" type="video/mp4">
+      </video>
+      <video controls>
+        <source src="videos/memory4.mp4" type="video/mp4">
+      </video>
     </div>
   </section>
+  
 
   <section>
-    <h2>🎵 Our Song</h2>
-    <p>Because some memories are better felt with music.</p>
-    <audio controls id="ourSong">
-      <source src="videos/oursong.mp3" type="audio/mp3">
+    <h2>🎵 Our Songs</h2>
+    <p>Because some memories are better felt with music. Click to play your favorite song together.</p>
+    
+    <audio controls id="ourSongPlayer">
+      <source src="videos/oursong0.mp3" type="audio/mp3">
+      Your browser does not support the audio element.
     </audio>
+  
+    <div style="margin-top: 15px;">
+      <button onclick="playSong('videos/song2.mp3')">Our First Song ❤️</button>
+      <button onclick="playSong('videos/song1.mp3')">Song We Both Like 🎶</button>
+      <button onclick="playSong('videos/song3.mp3')">Another Favorite 💛</button>
+    </div>
   </section>
+  
   <div id="loveModal"></div>
     <div id="loveContent">
       <span id="closeModal">&times;</span>
@@ -424,6 +441,21 @@
       lightboxImg.src = images[currentIndex].src;
     }
   </script>
+
+<script>
+  const player = document.getElementById('ourSongPlayer');
+
+  function playSong(src) {
+    player.src = src;
+    player.play().catch(() => console.log('Autoplay blocked, waiting for click.'));
+  }
+
+  // Pause background music when playlist plays
+  player.addEventListener('play', () => {
+    if (!bgMusic.paused) bgMusic.pause();
+  });
+</script>
+
 
   <!-- ❤️ Floating Hearts + 🌹 Rose Petals -->
   <script>
